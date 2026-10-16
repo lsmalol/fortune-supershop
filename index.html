@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fortune SuperShop · Electrónica y robótica</title>
+<meta name="description" content="Catálogo de electrónica, robótica y componentes de Fortune SuperShop. Pedidos por Instagram.">
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --bg:#ffffff; --bg-soft:#f5f5f7; --card:#ffffff; --text:#1d1d1f; --muted:#6e6e73; --line:#d2d2d7;
+  --accent:#0071e3; --accent-ink:#ffffff; --ok:#1d8f3a; --low:#b86e00; --soon:#0071e3; --out:#d70015;
+  --shadow:0 2px 14px rgba(0,0,0,.07); --shadow-hover:0 8px 28px rgba(0,0,0,.12);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#000000; --bg-soft:#161617; --card:#1d1d1f; --text:#f5f5f7; --muted:#a1a1a6; --line:#3a3a3c;
+    --accent:#2997ff; --accent-ink:#000000; --ok:#30d158; --low:#ffb340; --soon:#64b5ff; --out:#ff6961;
+    --shadow:none; --shadow-hover:0 8px 28px rgba(0,0,0,.6);}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.4;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.brand{font-weight:600;font-size:17px;letter-spacing:-.01em;white-space:nowrap}
+.search{position:relative;flex:1;max-width:460px;margin-left:auto}
+.search input{width:100%;height:38px;border-radius:10px;border:1px solid transparent;background:var(--bg-soft);
+  padding:0 36px 0 38px;font-size:15px}
+.search input:focus{outline:none;border-color:var(--accent);background:var(--bg)}
+.search svg{position:absolute;left:12px;top:10px;width:18px;height:18px;color:var(--muted);pointer-events:none}
+.search .clear{position:absolute;right:6px;top:6px;width:26px;height:26px;border:0;border-radius:50%;
+  background:transparent;color:var(--muted);cursor:pointer;display:none;font-size:18px;line-height:1}
+.search .clear.on{display:block}
+
+main{max-width:1180px;margin:0 auto;padding:0 20px 80px}
+.hero{padding:56px 0 28px}
+.hero h1{margin:0;font-size:clamp(34px,6vw,56px);line-height:1.05;letter-spacing:-.025em;font-weight:700}
+.hero p{margin:12px 0 0;font-size:clamp(17px,2.2vw,21px);color:var(--muted);max-width:620px}
+
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0 6px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;flex:1;min-width:0;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;
+  font-size:14px;cursor:pointer;white-space:nowrap}
+.chip small{color:var(--muted);margin-left:5px}
+.chip[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:var(--bg)}
+.chip[aria-pressed="true"] small{color:inherit;opacity:.7}
+.toggle{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer;user-select:none}
+.toggle input{width:18px;height:18px;accent-color:var(--accent)}
+.count{color:var(--muted);font-size:14px;margin:6px 0 18px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);
+  border-radius:20px;padding:0;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);
+  transition:box-shadow .2s ease,transform .2s ease}
+.card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.pic{aspect-ratio:4/3;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;color:var(--muted);overflow:hidden}
+.pic img{width:100%;height:100%;object-fit:contain;background:#fff}
+.pic svg{width:34%;height:auto;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.info{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px;flex:1}
+.name{font-size:16px;font-weight:600;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.5em}
+.sku{font-size:13px;color:var(--muted)}
+.row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:auto;padding-top:10px}
+.price{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.price small{font-size:12px;font-weight:400;color:var(--muted);margin-left:3px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:13px;white-space:nowrap}
+.st i{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.st.ok{color:var(--ok)} .st.low{color:var(--low)} .st.soon{color:var(--soon)} .st.out{color:var(--out)}
+
+.empty{text-align:center;padding:70px 20px;color:var(--muted)}
+.empty h2{color:var(--text);margin:0 0 6px;font-size:22px}
+.empty button{margin-top:14px;border:0;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:9px 20px;cursor:pointer}
+
+dialog{border:0;padding:0;border-radius:24px;width:min(880px,calc(100vw - 24px));max-height:calc(100vh - 24px);
+  background:var(--bg);color:var(--text);box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.d{display:grid;grid-template-columns:1fr 1fr}
+.d .pic{aspect-ratio:auto;min-height:340px}
+.d .pic svg{width:30%}
+.dbody{padding:32px 30px;display:flex;flex-direction:column;gap:14px}
+.dbody h2{margin:0;font-size:26px;line-height:1.15;letter-spacing:-.02em}
+.dprice{font-size:30px;font-weight:600;letter-spacing:-.02em}
+.dprice small{font-size:14px;font-weight:400;color:var(--muted);margin-left:4px}
+.dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:15px;border-top:1px solid var(--line);padding-top:14px}
+.dl dt{color:var(--muted)} .dl dd{margin:0}
+.desc{margin:0;font-size:15px;color:var(--text)}
+.buy{display:block;text-align:center;text-decoration:none;background:var(--accent);color:var(--accent-ink);
+  border-radius:999px;padding:13px 20px;font-weight:600;font-size:16px;margin-top:6px}
+.buy:hover{filter:brightness(1.08)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:0;background:var(--bg-soft);
+  color:var(--text);font-size:20px;line-height:1;cursor:pointer;z-index:2}
+@media (max-width:700px){
+  .d{grid-template-columns:1fr}.d .pic{min-height:220px;aspect-ratio:4/3}
+  .dbody{padding:22px 20px 26px}
+  .brand{font-size:15px}.top-in{padding:10px 14px;gap:10px}
+  main{padding:0 14px 60px}.hero{padding:34px 0 18px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .info{padding:12px 12px 14px}.name{font-size:14px}.price{font-size:16px}
+  .row{flex-direction:column;align-items:flex-start;gap:4px}
+}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);
+  padding:11px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:100;max-width:92vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.foot{border-top:1px solid var(--line);padding:22px 20px 40px;text-align:center;color:var(--muted);font-size:13px}
+.foot a{color:var(--accent);text-decoration:none}
+.fatal{max-width:560px;margin:80px auto;padding:20px;border:1px solid var(--out);border-radius:14px;color:var(--out)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">Fortune SuperShop</div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Buscar por nombre, SKU o especificación" autocomplete="off" aria-label="Buscar productos">
+      <button id="qclear" class="clear" type="button" aria-label="Borrar búsqueda">×</button>
+    </label>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Electrónica y robótica.</h1>
+    <p>Componentes para tus proyectos, con existencias reales. Elige una pieza y pídela por Instagram.</p>
+  </section>
+
+  <div class="bar">
+    <div class="chips" id="chips" role="group" aria-label="Filtrar por categoría"></div>
+    <label class="toggle"><input type="checkbox" id="onlyAvail"> Solo disponibles</label>
+  </div>
+  <div class="count" id="count" aria-live="polite"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>
+    <h2>Sin resultados</h2>
+    <div id="emptyMsg">Prueba con otro nombre, SKU o categoría.</div>
+    <button type="button" id="reset">Quitar filtros</button>
+  </div>
+  <noscript><div class="fatal">Este catálogo necesita JavaScript activado para mostrar los productos.</div></noscript>
+</main>
+
+<footer class="foot">
+  <div>Pedidos y dudas por <a id="igLink" href="#" target="_blank" rel="noopener">Instagram</a></div>
+  <div id="srcNote" style="margin-top:4px"></div>
+</footer>
+
+<dialog id="dlg" aria-label="Detalle del producto"><button class="x" id="dx" type="button" aria-label="Cerrar">×</button><div class="d" id="dbox"></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===== CONFIGURACIÓN ===== */
+  var CONFIG = {
+    SHEET_ID: '1PJ1CidTihP9O23jhnB7dbKhqbnfguGjA6TOmEM48OXg',
+    SHEET_NAME: 'Base_de_Datos_Inventario_Partes',
+    IG_USER: 'Fortunesupershop',
+    LIVE: true,           // true = intenta leer la hoja en vivo; si falla, usa los datos de abajo
+    IMG_DIR: '',          // Ej.: 'img/' -> busca img/<SKU>.jpg (ruta relativa). Vacío = no buscar fotos por SKU
+    IMG_EXT: 'jpg'        // extensión de las fotos en IMG_DIR (jpg, png, webp)
+  };
+
+  /* ===== DATOS DE RESPALDO (copia del inventario) =====
+     Orden: SKU, Parte, Categoria, Especificaciones, Precio, Stock, Estado, Imagen(URL), Descripcion */
+  var FALLBACK = [
+    ['MOT-001','Motorreductor Amarillo TT (Eje Doble)','Motores y Actuadores','3V - 6V DC','$25','24','Disponible','','Motor DC con caja reductora 1:48, ideal para proyectos de robótica móvil y carritos seguidores de línea.'],
+    ['MOT-002','Llanta de Goma para Motor TT (65mm)','Motores y Actuadores','65mm x 26mm','$25','28','Disponible','','Rueda de goma con rin plástico de alta adherencia, compatible directamente con el eje del motor TT.'],
+    ['DRV-001','Módulo Controlador Puente H MX1508','Drivers y Control','2V - 10V DC / 1.5A','$30','0','En camino','','Driver de motor ultra compacto para controlar velocidad y sentido de giro de hasta 2 motores DC.'],
+    ['PRO-001','Protoboard / Tablilla de Pruebas 830 Puntos','Electrónica','MB-102 (830 Puntos)','$30','8','Disponible','','Tablilla de pruebas sin soldadura con rieles de alimentación laterales autoadhesiva.'],
+    ['CON-001','Tira de Pin Headers Macho 1x40 (2.54mm)','Conexiones y Cables','40 Pines Rectos','$5','50','Disponible','','Tira de pines machos desprendibles con separación estándar de 2.54mm para soldar en placas de desarrollo.'],
+    ['CON-002','Tira de Pin Headers Hembra 1x40 (2.54mm)','Conexiones y Cables','40 Pines Rectos','$10','20','Disponible','','Tira de conectores hembra desprendibles ideal para crear conexiones rápidas en tarjetas y módulos.'],
+    ['RES-001','Resistencia de Carbón 220 Ohms (1/4W)','Componentes Pasivos','220 Ω / 0.25W / ±5%','$1','500','Disponible','','Resistencia limitadora de corriente indispensable para proteger LEDs en circuitos de 5V.'],
+    ['RES-002','Resistencia de Carbón 330 Ohms (1/4W)','Componentes Pasivos','330 Ω / 0.25W / ±5%','$1','100','Disponible','','Resistencia para limitación de corriente en circuitos con microcontroladores de 3.3V y 5V.'],
+    ['LED-001','Diodo LED 5mm - Rojo','Electrónica','5mm Difuso (1.8V - 2.2V)','$1','100','Disponible','','Diodo emisor de luz estándar color rojo para señalización y proyectos escolares.'],
+    ['LED-002','Diodo LED 5mm - Amarillo Neón','Electrónica','5mm Brillante (2.0V - 2.4V)','$1','100','Disponible','','LED indicador de alta visibilidad color amarillo neón.'],
+    ['LED-003','Diodo LED 5mm - Verde Amarillo','Electrónica','5mm Difuso (2.0V - 2.4V)','$1','100','Disponible','','LED indicador de estado color verde amarillento.'],
+    ['LED-004','Diodo LED 5mm - Verde Menta','Electrónica','5mm (3.0V - 3.2V)','$1','100','Disponible','','LED especial tono verde menta de alto brillo.'],
+    ['LED-005','Diodo LED 5mm - Naranja','Electrónica','5mm Difuso (2.0V - 2.2V)','$1','100','Disponible','','LED indicador de estado color naranja brillante.'],
+    ['LED-006','Diodo LED 5mm - Azul','Electrónica','5mm Ultra Brillante (3.0V - 3.2V)','$1','100','Disponible','','Diodo LED azul brillante para iluminación e indicadores visuales.'],
+    ['LED-007','Diodo LED 5mm - Blanco','Electrónica','5mm Luz Blanca (3.0V - 3.4V)','$1','100','Disponible','','LED blanco de alta intensidad lumínica para proyectos de iluminación.'],
+    ['LED-008','Diodo LED 5mm - Morado / UV','Electrónica','5mm Ultra Violeta (3.0V - 3.4V)','$1','100','Disponible','','Diodo emisor de luz ultravioleta / morado para efectos especiales y fluorescencia.'],
+    ['LED-009','Diodo LED 5mm - Rosa','Electrónica','5mm Brillante (3.0V - 3.2V)','$1','100','Disponible','','Diodo LED decorativo color rosa de alta intensidad.'],
+    ['LED-010','Diodo LED 5mm - Amarillo Luz Caliente','Electrónica','5mm Warm Yellow (2.0V - 2.2V)','$1','100','Disponible','','LED tono amarillo cálido ideal para simular luz incandescente o faros.'],
+    ['CAB-001','Alambre para Protoboard Calibre 22 AWG (Rojo)','Conexiones y Cables','22 AWG / Cobre Monofilamento','$3 (Por metro)','100 (Metros)','Disponible','','Cable rígido de un solo hilo conductor, perfecto para hacer puentes limpios en protoboard.'],
+    ['CON-003','Clema Atornillable 2 Pines / Bornera (5mm)','Conexiones y Cables','2 Pines / Paso 5mm / 300V 16A','$3','100','Disponible','','Conector bornera atornillable para fijar cables de alimentación o motores de forma segura.'],
+    ['CON-004','Par de Conectores XT60 (Macho + Hembra)','Conexiones y Cables','Hasta 60A Continuos','$20','9','Pocas Unidades','','Conectores de alta corriente con protección aislante, ideales para conexiones de baterías LiPo.'],
+    ['BAT-001','Batería LiPo 2S 7.4V 3000mAh (Fortune Engineering)','Baterías','2S (7.4V) / 3000mAh','$450','0','En camino','','Batería recargable de polímero de litio de gran capacidad y alto rendimiento.'],
+    ['MCU-001','Módulo ESP32 NodeMCU WROOM-32 (38 Pines)','Microcontroladores','38 Pines / 2.4GHz Wi-Fi + BT 4.2','$120','20','Disponible','','Tarjeta de desarrollo IoT potente con microcontrolador de doble núcleo y conectividad inalámbrica.']
+  ];
+
+  /* ===== UTILIDADES ===== */
+  function $(id) { return document.getElementById(id); }
+  function norm(s) {
+    s = String(s == null ? '' : s);
+    try { s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) {}
+    return s.toLowerCase().trim();
+  }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  var ICONS = {
+    motor: '<circle cx="24" cy="24" r="12"/><circle cx="24" cy="24" r="3.5"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6"/>',
+    driver: '<rect x="11" y="14" width="26" height="20" rx="3"/><path d="M17 14V8M24 14V8M31 14V8M17 40v-6M24 40v-6M31 40v-6"/><path d="M18 24h12"/>',
+    electro: '<path d="M16 28V17a8 8 0 0 1 16 0v11z"/><path d="M12 28h24M20 28v12M28 28v12"/>',
+    cable: '<path d="M8 18h10v-4h6v4h4M8 30h10v4h6v-4h4"/><rect x="28" y="12" width="12" height="12" rx="2"/><rect x="28" y="26" width="12" height="12" rx="2"/>',
+    pasivo: '<path d="M4 24h8l3-8 6 16 6-16 3 8h14" transform="translate(0 0)"/>',
+    bateria: '<rect x="6" y="15" width="32" height="18" rx="3"/><path d="M42 21v6"/><path d="M21 19l-4 6h6l-4 6"/>',
+    mcu: '<rect x="14" y="14" width="20" height="20" rx="3"/><path d="M19 14V8M24 14V8M29 14V8M19 40v-6M24 40v-6M29 40v-6M14 19H8M14 24H8M14 29H8M40 19h-6M40 24h-6M40 29h-6"/>',
+    base: '<rect x="10" y="10" width="28" height="28" rx="5"/><path d="M18 24h12M24 18v12"/>'
+  };
+  function iconKey(cat) {
+    var c = norm(cat);
+    if (c.indexOf('motor') > -1) return 'motor';
+    if (c.indexOf('driver') > -1) return 'driver';
+    if (c.indexOf('electron') > -1) return 'electro';
+    if (c.indexOf('conex') > -1 || c.indexOf('cable') > -1) return 'cable';
+    if (c.indexOf('pasiv') > -1) return 'pasivo';
+    if (c.indexOf('bater') > -1) return 'bateria';
+    if (c.indexOf('micro') > -1) return 'mcu';
+    return 'base';
+  }
+  function iconSvg(cat) {
+    return '<svg viewBox="0 0 48 48" aria-hidden="true">' + ICONS[iconKey(cat)] + '</svg>';
+  }
+
+  /* ===== DATOS ===== */
+  function buildProduct(r) {
+    var priceTxt = String(r[4] || '').trim();
+    var m = /([\d][\d.,]*)/.exec(priceTxt);
+    var priceNum = m ? parseFloat(m[1].replace(/,/g, '')) : NaN;
+    var priceNote = '';
+    var pn = /\(([^)]*)\)/.exec(priceTxt);
+    if (pn) priceNote = pn[1];
+    var stockTxt = String(r[5] || '').trim();
+    var sm = /(\d+)/.exec(stockTxt);
+    var stockNum = sm ? parseInt(sm[1], 10) : 0;
+    var estado = String(r[6] || '').trim();
+    var e = norm(estado), key;
+    if (e.indexOf('dispon') > -1) key = 'ok';
+    else if (e.indexOf('poca') > -1) key = 'low';
+    else if (e.indexOf('camino') > -1) key = 'soon';
+    else if (e.indexOf('agot') > -1) key = 'out';
+    else key = stockNum > 0 ? 'ok' : 'out';
+    return {
+      sku: String(r[0] || '').trim(),
+      name: String(r[1] || '').trim(),
+      cat: String(r[2] || 'Otros').trim() || 'Otros',
+      spec: String(r[3] || '').trim(),
+      priceNum: priceNum,
+      priceNote: priceNote,
+      stockTxt: stockTxt,
+      stockNum: stockNum,
+      status: estado || (key === 'ok' ? 'Disponible' : 'Agotado'),
+      key: key,
+      img: String(r[7] || '').trim(),
+      desc: String(r[8] || '').trim()
+    };
+  }
+  function parseCSV(text) {
+    var rows = [], row = [], cur = '', q = false, i, c;
+    for (i = 0; i < text.length; i++) {
+      c = text.charAt(i);
+      if (q) {
+        if (c === '"') { if (text.charAt(i + 1) === '"') { cur += '"'; i++; } else q = false; }
+        else cur += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(cur); cur = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && text.charAt(i + 1) === '\n') i++;
+        row.push(cur); cur = ''; rows.push(row); row = [];
+      } else cur += c;
+    }
+    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  }
+  function rowsFromSheet(csv) {
+    var rows = parseCSV(csv);
+    if (!rows.length) return null;
+    var head = rows[0].map(norm), idx = {};
+    function find(words) {
+      for (var i = 0; i < head.length; i++)
+        for (var j = 0; j < words.length; j++) if (head[i].indexOf(words[j]) > -1) return i;
+      return -1;
+    }
+    idx.sku = find(['sku']); idx.name = find(['parte', 'nombre']); idx.cat = find(['categor']);
+    idx.spec = find(['especific']); idx.price = find(['precio']); idx.stock = find(['stock', 'existenc']);
+    idx.status = find(['estado']); idx.img = find(['url_imagen', 'imagen']); idx.desc = find(['descrip']);
+    if (idx.sku < 0 || idx.name < 0) return null;       // no parece la hoja correcta (p. ej. página de login)
+    function g(r, k) { return k >= 0 && r[k] != null ? r[k] : ''; }
+    var out = [];
+    for (var i = 1; i < rows.length; i++) {
+      var r = rows[i];
+      if (!g(r, idx.sku).trim() || !g(r, idx.name).trim()) continue;
+      out.push([g(r, idx.sku), g(r, idx.name), g(r, idx.cat), g(r, idx.spec), g(r, idx.price),
+                g(r, idx.stock), g(r, idx.status), g(r, idx.img), g(r, idx.desc)]);
+    }
+    return out.length ? out : null;
+  }
+
+  /* ===== ESTADO ===== */
+  var products = [];
+  var state = { q: '', cat: 'Todos', onlyAvail: false };
+
+  function money(p) {
+    if (isNaN(p.priceNum)) return null;
+    return '$' + p.priceNum.toLocaleString('es-MX', { maximumFractionDigits: 2 });
+  }
+  function statusEl(p) {
+    var s = el('span', 'st ' + p.key);
+    s.appendChild(el('i'));
+    s.appendChild(document.createTextNode(p.status));
+    return s;
+  }
+  function picEl(p) {
+    var pic = el('div', 'pic');
+    function fallback() { pic.innerHTML = iconSvg(p.cat); }
+    var src = '';
+    if (/^https?:\/\//i.test(p.img) || /^(\.\/|[\w-]+\/)[^\s]*\.(png|jpe?g|webp|gif|svg)$/i.test(p.img)) src = p.img;
+    else if (CONFIG.IMG_DIR && p.sku) src = CONFIG.IMG_DIR + encodeURIComponent(p.sku) + '.' + CONFIG.IMG_EXT;
+    if (src) {
+      var im = new Image();
+      im.alt = p.name; im.loading = 'lazy'; im.decoding = 'async';
+      im.onerror = fallback;
+      im.src = src;
+      pic.appendChild(im);
+    } else fallback();
+    return pic;
+  }
+
+  function matches(p) {
+    if (state.cat !== 'Todos' && p.cat !== state.cat) return false;
+    if (state.onlyAvail && p.key !== 'ok' && p.key !== 'low') return false;
+    if (!state.q) return true;
+    var hay = norm([p.name, p.sku, p.spec, p.desc, p.cat].join(' '));
+    var words = norm(state.q).split(/\s+/);
+    for (var i = 0; i < words.length; i++) if (words[i] && hay.indexOf(words[i]) < 0) return false;
+    return true;
+  }
+
+  function renderChips() {
+    var box = $('chips'), counts = {}, order = [];
+    box.textContent = '';
+    products.forEach(function (p) { if (!(p.cat in counts)) { counts[p.cat] = 0; order.push(p.cat); } counts[p.cat]++; });
+    [['Todos', products.length]].concat(order.map(function (c) { return [c, counts[c]]; })).forEach(function (pair) {
+      var b = el('button', 'chip', pair[0]);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(state.cat === pair[0]));
+      b.appendChild(el('small', null, String(pair[1])));
+      b.addEventListener('click', function () { state.cat = pair[0]; renderChips(); renderGrid(); });
+      box.appendChild(b);
+    });
+  }
+
+  function renderGrid() {
+    var grid = $('grid'), list = products.filter(matches);
+    grid.textContent = '';
+    list.forEach(function (p) {
+      var card = el('button', 'card');
+      card.type = 'button';
+      card.setAttribute('aria-label', 'Ver detalle de ' + p.name);
+      card.appendChild(picEl(p));
+      var info = el('div', 'info');
+      info.appendChild(el('div', 'name', p.name));
+      info.appendChild(el('div', 'sku', p.sku));
+      var row = el('div', 'row');
+      var price = el('div', 'price', money(p) || 'Consultar');
+      if (p.priceNote) price.appendChild(el('small', null, 'MXN · ' + p.priceNote.toLowerCase()));
+      else if (money(p)) price.appendChild(el('small', null, 'MXN'));
+      row.appendChild(price);
+      row.appendChild(statusEl(p));
+      info.appendChild(row);
+      card.appendChild(info);
+      card.addEventListener('click', function () { openDetail(p); });
+      grid.appendChild(card);
+    });
+    $('count').textContent = list.length === 1 ? '1 producto' : list.length + ' productos';
+    var empty = list.length === 0;
+    $('empty').hidden = !empty;
+    if (empty) $('emptyMsg').textContent = state.q ? 'No encontramos «' + state.q + '». Prueba con otro nombre, SKU o especificación.' : 'No hay productos con estos filtros.';
+  }
+
+  /* ===== DETALLE + PEDIDO ===== */
+  function orderMessage(p) { return 'Hola, me interesa este producto: ' + p.name + ' (SKU: ' + p.sku + ')'; }
+  var toastTimer;
+  function toast(msg) {
+    var t = $('toast'); t.textContent = msg; t.classList.add('on');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('on'); }, 4200);
+  }
+  function copyText(txt) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(txt);
+    } catch (e) {}
+    return Promise.reject(new Error('sin portapapeles'));
+  }
+
+  function openDetail(p) {
+    var box = $('dbox'), dlg = $('dlg');
+    box.textContent = '';
+    box.appendChild(picEl(p));
+    var b = el('div', 'dbody');
+    b.appendChild(el('h2', null, p.name));
+    var pr = el('div', 'dprice', money(p) || 'Consultar');
+    if (money(p)) pr.appendChild(el('small', null, 'MXN' + (p.priceNote ? ' · ' + p.priceNote.toLowerCase() : '')));
+    b.appendChild(pr);
+    if (p.desc) b.appendChild(el('p', 'desc', p.desc));
+    var dl = el('dl', 'dl');
+    function add(k, v) { if (!v) return; dl.appendChild(el('dt', null, k)); dl.appendChild(el('dd', null, v)); }
+    add('SKU', p.sku);
+    add('Categoría', p.cat);
+    add('Especificaciones', p.spec);
+    var dt = el('dt', null, 'Disponibilidad'), dd = el('dd');
+    dd.appendChild(statusEl(p));
+    dl.appendChild(dt); dl.appendChild(dd);
+    if (p.stockTxt) add('Existencias', p.stockTxt);
+    b.appendChild(dl);
+
+    var a = el('a', 'buy', 'Pedir por Instagram');
+    a.href = 'https://ig.me/m/' + CONFIG.IG_USER;
+    a.target = '_blank'; a.rel = 'noopener';
+    a.addEventListener('click', function () {
+      copyText(orderMessage(p)).then(function () {
+        toast('Mensaje copiado. Pégalo en el chat de @' + CONFIG.IG_USER + '.');
+      }, function () {
+        toast('Escribe en el chat: ' + orderMessage(p));
+      });
+    });
+    b.appendChild(a);
+    b.appendChild(el('p', 'hint', 'Al tocar, se copia el mensaje con el nombre y SKU y se abre el chat de @' + CONFIG.IG_USER + '.'));
+    box.appendChild(b);
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+  function closeDetail() {
+    var dlg = $('dlg');
+    if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open');
+  }
+
+  /* ===== ARRANQUE ===== */
+  function setData(rows, note) {
+    products = rows.map(buildProduct);
+    if (state.cat !== 'Todos' && !products.some(function (p) { return p.cat === state.cat; })) state.cat = 'Todos';
+    $('srcNote').textContent = note;
+    renderChips(); renderGrid();
+  }
+
+  function init() {
+    $('igLink').href = 'https://ig.me/m/' + CONFIG.IG_USER;
+    $('igLink').textContent = '@' + CONFIG.IG_USER;
+
+    var q = $('q'), clr = $('qclear');
+    q.addEventListener('input', function () {
+      state.q = q.value.trim(); clr.classList.toggle('on', !!q.value); renderGrid();
+    });
+    clr.addEventListener('click', function () { q.value = ''; state.q = ''; clr.classList.remove('on'); renderGrid(); q.focus(); });
+    $('onlyAvail').addEventListener('change', function (e) { state.onlyAvail = e.target.checked; renderGrid(); });
+    $('reset').addEventListener('click', function () {
+      state.q = ''; state.cat = 'Todos'; state.onlyAvail = false;
+      q.value = ''; clr.classList.remove('on'); $('onlyAvail').checked = false; renderChips(); renderGrid();
+    });
+    $('dx').addEventListener('click', closeDetail);
+    $('dlg').addEventListener('click', function (e) { if (e.target === $('dlg')) closeDetail(); });
+
+    // 1) Pinta de inmediato con los datos incluidos (nunca queda en blanco)
+    setData(FALLBACK, 'Catálogo guardado en la página.');
+
+    // 2) Intenta actualizar desde Google Sheets
+    if (!CONFIG.LIVE || typeof fetch !== 'function') return;
+    var url = 'https://docs.google.com/spreadsheets/d/' + CONFIG.SHEET_ID +
+              '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(CONFIG.SHEET_NAME);
+    fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    }).then(function (txt) {
+      var rows = rowsFromSheet(txt);
+      if (!rows) throw new Error('La hoja no devolvió el formato esperado');
+      setData(rows, 'Inventario sincronizado con la hoja de cálculo.');
+    }).catch(function (err) {
+      if (window.console) console.warn('[FSS] No se pudo leer la hoja; se usan los datos incluidos.', err);
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && document.activeElement !== $('q') && !$('dlg').open) { e.preventDefault(); $('q').focus(); }
+  });
+
+  try {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  } catch (err) {
+    var m = document.createElement('div');
+    m.className = 'fatal';
+    m.textContent = 'No se pudo cargar el catálogo: ' + err.message;
+    document.body.appendChild(m);
+    if (window.console) console.error(err);
+  }
+})();
+</script>
+</body>
+</html>
